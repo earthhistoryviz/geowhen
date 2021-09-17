@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/geowhen/static/css/main.bddad35b.chunk.css",
+    "main.js": "/geowhen/static/js/main.acabde6b.chunk.js",
+    "main.js.map": "/geowhen/static/js/main.acabde6b.chunk.js.map",
+    "runtime-main.js": "/geowhen/static/js/runtime-main.777074b3.js",
+    "runtime-main.js.map": "/geowhen/static/js/runtime-main.777074b3.js.map",
+    "static/css/2.f2512455.chunk.css": "/geowhen/static/css/2.f2512455.chunk.css",
+    "static/js/2.a3073efb.chunk.js": "/geowhen/static/js/2.a3073efb.chunk.js",
+    "static/js/2.a3073efb.chunk.js.map": "/geowhen/static/js/2.a3073efb.chunk.js.map",
+    "index.html": "/geowhen/index.html",
+    "static/css/2.f2512455.chunk.css.map": "/geowhen/static/css/2.f2512455.chunk.css.map",
+    "static/css/main.bddad35b.chunk.css.map": "/geowhen/static/css/main.bddad35b.chunk.css.map",
+    "static/js/2.a3073efb.chunk.js.LICENSE.txt": "/geowhen/static/js/2.a3073efb.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.777074b3.js",
+    "static/css/2.f2512455.chunk.css",
+    "static/js/2.a3073efb.chunk.js",
+    "static/css/main.bddad35b.chunk.css",
+    "static/js/main.acabde6b.chunk.js"
+  ]
+}
