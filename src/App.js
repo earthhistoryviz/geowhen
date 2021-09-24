@@ -24,17 +24,17 @@ function App () {
     console.log('spreadsheet = ', spreadsheet);
   };
 
-  const [permanentTestData, setPermanetTestData] = useState([
+  const [testData, setTestData] = useState([
     {
       stageName: 'test data 111',
       age: 240
     },
     {
-      stageName: 'test data 222',
+      stageName: 'test111 data 222',
       age: 250
     },
     {
-      stageName: 'test data 333',
+      stageName: 'test data 333 111',
       age: 260
     },
     {
@@ -55,13 +55,14 @@ function App () {
     }
   ]);
 
-  const [displayedStages, setDisplayedStages] = useState(permanentTestData);
+  const [displayedStages, setDisplayedStages] = useState(testData);
   const [queryStr, setQueryStr] = useState('');
 
-  // Runs everytime the user types in the search bar
-  const filterStagesByName = (event) => {
-    const queryStr = event.target.value;
-  };
+  // Runs everytime the user types in the search bar and filters stages
+  useEffect(() => {
+    const filteredStages = testData.filter(stageData => stageData.stageName.includes(queryStr));
+    setDisplayedStages(filteredStages);
+  }, [queryStr]);
 
   return (
     <div className='mx-auto mt-4' style={{ width: '90%' }}>
@@ -71,7 +72,7 @@ function App () {
       {displayedStages
         ? (
           <>
-            <Search onChange={filterStagesByName} />
+            <Search onChange={(e) => { setQueryStr(e.target.value); }} />
             <div
               className='mt-3 border shadow-sm'
               style={{ height: '400px', overflowY: 'scroll' }}
