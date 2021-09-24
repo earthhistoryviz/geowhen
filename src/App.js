@@ -18,10 +18,12 @@ function App () {
     const result = await axios.get('https://api.github.com/repos/earthhistoryviz/geowhen/contents/data/MasterData.xlsx', {
       headers: {
         Accept: 'application/vnd.github.v3.raw'
-      }
+      },
+      responseType: 'arraybuffer',
     });
-    const spreadsheet = xlsx.read(result.data, { type: 'array' });
-    console.log('spreadsheet = ', spreadsheet);
+    const spreadsheet = xlsx.read(new Uint8Array(result.data), { type: 'array' });
+    const masterdata = xlsx.utils.sheet_to_json(spreadsheet.Sheets['Geological stages']);
+    console.log('masterdata = ', masterdata);
   };
 
   const [testData, setTestData] = useState([
