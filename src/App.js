@@ -22,8 +22,18 @@ function App () {
       responseType: 'arraybuffer',
     });
     const spreadsheet = xlsx.read(new Uint8Array(result.data), { type: 'array' });
-    const masterdata = xlsx.utils.sheet_to_json(spreadsheet.Sheets['Geological stages']);
-    console.log('masterdata = ', masterdata);
+    const masterdata = xlsx.utils.sheet_to_json(spreadsheet.Sheets['Geological stages']).slice(1);
+
+    // Note from Aaron: we stopped here, we were debugging any period names that show up in 
+    // the byperiod variable which didn't make sense ("undefined", "era", etc.).  All of them
+    // found thus far we errors in the spreadsheet itself, so no need for code to deal with them.
+    const byperiod = masterdata.reduce((acc,row) => {
+      if (!acc[row.Period]) acc[row.Period] = [];
+      acc[row.Period].push(row);
+      return acc;
+    }, {});
+
+    console.log('byperiod = ', byperiod);
   };
 
   const [testData, setTestData] = useState([
