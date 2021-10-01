@@ -19,85 +19,71 @@ function App () {
       headers: {
         Accept: 'application/vnd.github.v3.raw'
       },
-      responseType: 'arraybuffer',
+      responseType: 'arraybuffer'
     });
     const spreadsheet = xlsx.read(new Uint8Array(result.data), { type: 'array' });
     const masterdata = xlsx.utils.sheet_to_json(spreadsheet.Sheets['Geological stages']).slice(1);
 
-    // Note from Aaron: we stopped here, we were debugging any period names that show up in 
+    // Note from Aaron: we stopped here, we were debugging any period names that show up in
     // the byperiod variable which didn't make sense ("undefined", "era", etc.).  All of them
     // found thus far we errors in the spreadsheet itself, so no need for code to deal with them.
-    const byperiod = masterdata.reduce((acc,row) => {
+    const byperiod = masterdata.reduce((acc, row) => {
       if (!acc[row.Period]) acc[row.Period] = [];
       acc[row.Period].push(row);
       return acc;
     }, {});
 
     console.log('byperiod = ', byperiod);
+    setMasterData(byperiod);
+    setDisplayedStages(byperiod);
   };
+  const [masterData, setMasterData] = useState();
+  useEffect(() => {
+    // Execute when component or UI loads
+    getMasterData();
+  }, []);
 
-  const [testData, setTestData] = useState([
-    {
-      stageName: 'test data 111',
-      age: 240
-    },
-    {
-      stageName: 'test111 data 222',
-      age: 250
-    },
-    {
-      stageName: 'test data 333 111',
-      age: 260
-    },
-    {
-      stageName: 'test data 444',
-      age: 260
-    },
-    {
-      stageName: 'test data 555',
-      age: 260
-    },
-    {
-      stageName: 'test data 666',
-      age: 260
-    },
-    {
-      stageName: 'test data 777',
-      age: 260
-    }
-  ]);
-
-  const [displayedStages, setDisplayedStages] = useState(testData);
-  const [queryStr, setQueryStr] = useState('');
+  const [displayedStages, setDisplayedStages] = useState(masterData);
+  // const [queryStr, setQueryStr] = useState('');
 
   // Runs everytime the user types in the search bar and filters stages
-  useEffect(() => {
-    const filteredStages = testData.filter(stageData => stageData.stageName.includes(queryStr));
-    setDisplayedStages(filteredStages);
-  }, [queryStr]);
-
+  const filterByName = (queryStr) => {
+    const filteredPeriods = {};
+    Object.keys(masterData).forEach((periodName) => {
+      filteredPeriods[periodName] = masterData[periodName].filter(stageData => stageData.STAGE.includes(queryStr));
+    });
+    setDisplayedStages(filteredPeriods);
+  };
   return (
     <div className='mx-auto mt-4' style={{ width: '90%' }}>
       <Button onClick={getMasterData}>Get the master data</Button>
 
       {/* Will show "loading..." when the stages data is not loaded */}
-      {displayedStages
+      {masterData && displayedStages
         ? (
           <>
-            <Search onChange={(e) => { setQueryStr(e.target.value); }} />
+            <Search onChange={(e) => { filterByName(e.target.value); }} />
             <div
               className='mt-3 border shadow-sm'
-              style={{ height: '400px', overflowY: 'scroll' }}
+              style={{ height: '400px', overflowX: 'scroll' }}
             >
               <div className='mx-auto row px-2 w-100'>
-                {displayedStages.map((stage, index) => (
-                  <div key={index} className='my-2 col-lg-2 col-sm-3 col-6 d-flex justify-content-center'>
-                    <Button>
-                      {stage.stageName}
-                    </Button>
-                  </div>
 
+                {Object.keys(displayedStages).map((periodName, index) => (
+                  <div className='row' key={index}>
+                    <strong>{periodName}</strong>
+                    {displayedStages[periodName].map((stage, index) => (
+                      <div key={index} className='my-2 col-2 d-flex justify-content-center'>
+
+                        <Button>
+                          {stage.STAGE}
+                        </Button>
+                      </div>
+
+                    ))}
+                  </div>
                 ))}
+
               </div>
 
             </div>
