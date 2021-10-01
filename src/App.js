@@ -50,7 +50,7 @@ function App () {
   const filterByName = (queryStr) => {
     const filteredPeriods = {};
     Object.keys(masterData).forEach((periodName) => {
-      filteredPeriods[periodName] = masterData[periodName].filter(stageData => stageData.STAGE.includes(queryStr));
+      filteredPeriods[periodName] = masterData[periodName].filter(stageData => stageData.STAGE.toLowerCase().includes(queryStr.toLowerCase()));
     });
     setDisplayedStages(filteredPeriods);
   };
