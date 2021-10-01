@@ -1,12 +1,16 @@
 import Button from 'react-bootstrap/Button';
-import React, { useState } from 'react';
+import React from 'react';
 import { InputGroup, FormControl, Modal, FloatingLabel, Form, Row, Col } from 'react-bootstrap';
+import { useAppState, useActions } from '../overmind';
 
 const Search = (props) => {
-  const [showModal, setShowModal] = useState(false);
+  const actions = useActions();
+  const state = useAppState();
 
-  const handleCloseModal = () => setShowModal(false);
-  const handleShowModal = () => setShowModal(true);
+  const fm = state.view.filterModal;
+
+  const handleCloseModal = () => actions.toggleFilterModal();
+  const handleShowModal = () => actions.toggleFilterModal();
 
   return (
     <>
@@ -16,7 +20,7 @@ const Search = (props) => {
           Filter menu
         </Button>
 
-        <Modal size='lg' show={showModal} onHide={handleCloseModal}>
+        <Modal size='lg' show={fm.visible} onHide={handleCloseModal}>
           <Modal.Header closeButton>
             <Modal.Title>Advance Filtering Menu</Modal.Title>
           </Modal.Header>
@@ -25,7 +29,7 @@ const Search = (props) => {
             <Form>
               <h5>Search by:</h5>
               <FloatingLabel className='my-2' controlId='floatingSelect' label='By Stage'>
-                <Form.Select aria-label='Floating label select example'>
+                <Form.Select onChange={evt => actions.mergeFilter({ period: evt.target.value })} aria-label='Floating label select example'>
                   <option value='0'>All</option>
                   <option value='1'>One</option>
                   <option value='2'>Two</option>
