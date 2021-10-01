@@ -56,7 +56,7 @@ function App () {
   };
   return (
     <div className='mx-auto mt-4' style={{ width: '90%' }}>
-      <Button onClick={getMasterData}>Get the master data</Button>
+      {/* <Button onClick={getMasterData}>Get the master data</Button> */}
 
       {/* Will show "loading..." when the stages data is not loaded */}
       {masterData && displayedStages
