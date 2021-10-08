@@ -2,7 +2,7 @@ export const state = {
   isLoading: true,
   masterdata: {
     byperiod: {},
-    displaysStages: {}, // same format as byperiod
+    displayedStages: {}, // same format as byperiod
     raw: []
   },
   filter: {
@@ -10,7 +10,8 @@ export const state = {
     region: false,
     topAge: false,
     bottomAge: false,
-    sortBy: false
+    sortBy: false,
+    queryStr: '',
   },
   view: {
     filterModal: {

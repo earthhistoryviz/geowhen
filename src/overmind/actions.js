@@ -46,20 +46,35 @@ export const onInitializeOvermind = async ({ state }) => {
  *
  ***************************************************************************/
 
-export const filterByName = ({ state }, queryStr) => {
+export const doFilter = ({ state }) => {
   const filteredPeriods = {};
+  const filter = state.filter;
   Object.keys(state.masterdata.byperiod).forEach((periodName) => {
     const bp = state.masterdata.byperiod[periodName];
-    filteredPeriods[periodName] = bp.filter(stageData => stageData.STAGE.includes(queryStr));
+    filteredPeriods[periodName] = bp.filter(stageData => {
+      if (!stageData.STAGE.toUpperCase().includes(filter.queryStr.toUpperCase())) {
+        console.log('query string denies inclusion of '+stageData.STAGE);
+        return false;
+      }
+      console.log('region type is: ', typeof stageData.Region);
+      if (filter.region && ((typeof stageData.Region !== 'string') || !stageData.Region.toUpperCase().includes(filter.region.toUpperCase()))) {
+        console.log('filter region denies inclusion of '+stageData.STAGE);
+        return false;
+      }
+      return true;
+    });
   });
   state.masterdata.displayedStages = filteredPeriods;
 };
 
-export const mergeFilter = ({ state }, toMerge) => {
+export const mergeFilter = ({ state, actions }, toMerge) => {
   state.filter = {
     ...state.filter,
     ...toMerge
   };
+
+  actions.doFilter();
+  
   console.log(state);
 };
 

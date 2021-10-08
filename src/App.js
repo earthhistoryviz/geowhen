@@ -18,8 +18,8 @@ function App () {
 
   const { isLoading, masterdata } = state;
 
-  const doFilter = (evt) => {
-    actions.filterByName(evt.target.value);
+  const searchUpdated = (evt) => {
+    actions.mergeFilter({ queryStr: evt.target.value });
   };
 
   return (
@@ -28,7 +28,7 @@ function App () {
       {!isLoading
         ? (
           <>
-            <Search onChange={doFilter}/>
+            <Search onChange={searchUpdated}/>
             <div
               className='mt-3 border shadow-sm'
               style={{ height: '400px', overflowX: 'scroll' }}
