@@ -3,19 +3,22 @@ export const state = {
   masterdata: {
     byperiod: {},
     displaysStages: {}, // same format as byperiod
-    raw: [],
+    raw: []
   },
   filter: {
-    querystr: '',
     period: false,
     region: false,
-    topage: false,
-    bottomage: false,
-    sortby: false,
+    topAge: false,
+    bottomAge: false,
+    sortBy: false
   },
   view: {
     filterModal: {
-      visible: false,
+      visible: false
+    },
+    filterOptions: {
+      periods: [],
+      regions: []
     }
   }
-}
+};

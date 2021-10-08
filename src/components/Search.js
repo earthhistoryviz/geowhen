@@ -8,9 +8,12 @@ const Search = (props) => {
   const state = useAppState();
 
   const fm = state.view.filterModal;
+  const filterOptions = state.view.filterOptions;
+  const filterState = state.filter;
 
   const handleCloseModal = () => actions.toggleFilterModal();
   const handleShowModal = () => actions.toggleFilterModal();
+  const handleSubmit = () => actions.applyFilters();
 
   return (
     <>
@@ -28,21 +31,21 @@ const Search = (props) => {
           <Modal.Body className='p-sm-5'>
             <Form>
               <h5>Search by:</h5>
-              <FloatingLabel className='my-2' controlId='floatingSelect' label='By Stage'>
-                <Form.Select onChange={evt => actions.mergeFilter({ period: evt.target.value })} aria-label='Floating label select example'>
-                  <option value='0'>All</option>
-                  <option value='1'>One</option>
-                  <option value='2'>Two</option>
-                  <option value='3'>Three</option>
+              <FloatingLabel className='my-2' controlId='floatingSelect' label='By Period'>
+                <Form.Select onChange={event => actions.mergeFilter({ period: event.target.value })} aria-label='Floating label select example'>
+                  <option value='' selected={!filterState.period}>All</option>
+                  {filterOptions.periods.map((period, index) => (
+                    <option key={index} value={period} selected={period === filterState.period}>{period}</option>
+                  ))}
                 </Form.Select>
               </FloatingLabel>
 
               <FloatingLabel className='my-2' controlId='floatingSelect' label='By Region'>
                 <Form.Select aria-label='Floating label select example'>
-                  <option value='0'>All</option>
-                  <option value='1'>One</option>
-                  <option value='2'>Two</option>
-                  <option value='3'>Three</option>
+                  <option value='' selected={!filterState.region}>All</option>
+                  {filterOptions.regions.map((region, index) => (
+                    <option key={index} value={region} selected={region === filterState.region}>{region}</option>
+                  ))}
                 </Form.Select>
               </FloatingLabel>
 
@@ -51,37 +54,49 @@ const Search = (props) => {
                   By Age:
                 </Form.Label>
                 <Col sm='4'>
-                  <Form.Control placeholder='Lower Bound' />
+                  <Form.Control
+                    type='number'
+                    placeholder='Lower Bound'
+                    onChange={event => { actions.mergeFilter({ bottomAge: event.target.value }); }}
+                  />
                 </Col>
                 <Col className='d-flex justify-content-center' sm='2'>
                   <p className='m-auto'>to</p>
                 </Col>
                 <Col sm='4'>
-                  <Form.Control placeholder='Upper Bound' />
+                  <Form.Control
+                    type='number'
+                    placeholder='Upper Bound'
+                    onChange={event => { actions.mergeFilter({ topAge: event.target.value }); }}
+                  />
                 </Col>
               </Form.Group>
 
               <hr />
               <h5>Sort by:</h5>
 
-              <Form.Group className='mb-3'>
+              <Form.Group
+                className='mb-3'
+                onChange={event => { actions.mergeFilter({ sortBy: event.target.value }); }}
+              >
                 <Form.Check
                   type='radio'
+                  name='sortBy'
                   label='sort-alphabetically'
-                  name='formHorizontalRadios'
-                  id='formHorizontalRadios1'
+                  value='alphabet'
                 />
                 <Form.Check
                   type='radio'
+                  name='sortBy'
                   label='sort-by-age'
-                  name='formHorizontalRadios'
-                  id='formHorizontalRadios2'
+                  value='age'
+
                 />
                 <Form.Check
                   type='radio'
+                  name='sortBy'
                   label='sort-by-region'
-                  name='formHorizontalRadios'
-                  id='formHorizontalRadios3'
+                  value='region'
                 />
               </Form.Group>
               <hr />
@@ -96,7 +111,7 @@ const Search = (props) => {
             <Button variant='danger' onClick={handleCloseModal}>
               Reset
             </Button>
-            <Button variant='primary' onClick={handleCloseModal}>
+            <Button variant='primary' onClick={handleSubmit}>
               Apply
             </Button>
           </Modal.Footer>
