@@ -41,7 +41,7 @@ const Search = (props) => {
               </FloatingLabel>
 
               <FloatingLabel className='my-2' controlId='floatingSelect' label='By Region'>
-                <Form.Select aria-label='Floating label select example'>
+                <Form.Select onChange={event => actions.mergeFilter({ region: event.target.value })} aria-label='Floating label select example'>
                   <option value='' selected={!filterState.region}>All</option>
                   {filterOptions.regions.map((region, index) => (
                     <option key={index} value={region} selected={region === filterState.region}>{region}</option>
