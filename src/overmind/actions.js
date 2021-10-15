@@ -61,6 +61,9 @@ export const doFilter = ({ state }) => {
         console.log('filter region denies inclusion of '+stageData.STAGE);
         return false;
       }
+      if (filter.period && ((typeof stageData.Period !== 'string') || !stageData.Period.toUpperCase().includes(filter.period.toUpperCase()))){
+        return false;
+      }
       return true;
     });
   });

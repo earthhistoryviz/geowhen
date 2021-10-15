@@ -15,7 +15,7 @@ function App () {
 
   const state = useAppState();
   const actions = useActions();
-
+  //const result = masterdata.displayedStages("Quaternary");
   const { isLoading, masterdata } = state;
 
   const searchUpdated = (evt) => {
@@ -29,6 +29,30 @@ function App () {
         ? (
           <>
             <Search onChange={searchUpdated}/>
+            <div
+              className='mt-5 border shadow-sm'
+              style={{ height: '400px', overflowX: 'scroll' }}
+            >
+              <div className='scrolling-wrapper row flex-row flex-nowrap mt-4 pb-4 pt-2'>
+
+                {Object.keys(masterdata.displayedStages).map((periodName, index) => (
+                  <div className='col' key={index}>
+                    <strong>{periodName}</strong>
+                    {masterdata.displayedStages[periodName].map((stage, index) => (
+                      <div key={index} className='my-2 col-8 d-flex justify-content-center'>
+
+                        <Button>
+                          {stage.STAGE}
+                        </Button>
+                      </div>
+
+                    ))}
+                  </div>
+                ))}
+
+              </div>
+              
+            </div>
             <div
               className='mt-3 border shadow-sm'
               style={{ height: '400px', overflowX: 'scroll' }}
@@ -51,7 +75,7 @@ function App () {
                 ))}
 
               </div>
-
+              
             </div>
           </>
           )
