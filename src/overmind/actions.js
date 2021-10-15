@@ -1,5 +1,6 @@
 import axios from 'axios';
 import xlsx from 'xlsx';
+//import clone from 'clone';
 
 export const onInitializeOvermind = async ({ state }) => {
   state.isLoading = true;
@@ -10,8 +11,9 @@ export const onInitializeOvermind = async ({ state }) => {
     responseType: 'arraybuffer'
   });
   const spreadsheet = xlsx.read(new Uint8Array(result.data), { type: 'array' });
+  console.log('spreadsheet = ', spreadsheet);
   const masterdata = xlsx.utils.sheet_to_json(spreadsheet.Sheets['Geological stages']).slice(1);
-  console.log(masterdata);
+  //console.log(masterdata);
 
   // Note from Aaron: we stopped here, we were debugging any period names that show up in
   // the byperiod variable which didn't make sense ("undefined", "era", etc.).  All of them
@@ -77,15 +79,25 @@ export const mergeFilter = ({ state, actions }, toMerge) => {
   };
 
   actions.doFilter();
-  
-  console.log(state);
 };
 
-export const applyFilters = ({ state }) => {
+export const mergeStagingFilter = ({ state, actions }, toMerge) => {
+  state.view.filterModal.stagingFilter = {
+    ...state.view.filterModal.stagingFilter,
+    ...toMerge
+  };
+};
+
+
+export const applyFilters = ({ state, actions }) => {
   state.view.filterModal.visible = !state.view.filterModal.visible;
-  alert('Im going to filter using: \n' + JSON.stringify(state.filter));
+  state.filter = { ...state.view.filterModal.stagingFilter };
+  actions.doFilter();
 };
 
 export const toggleFilterModal = ({ state }) => {
+  if (!state.view.filterModal.visible) {
+    state.view.filterModal.stagingFilter = { ...state.filter };
+  }
   state.view.filterModal.visible = !state.view.filterModal.visible;
 };

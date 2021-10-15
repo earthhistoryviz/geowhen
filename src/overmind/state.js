@@ -15,7 +15,8 @@ export const state = {
   },
   view: {
     filterModal: {
-      visible: false
+      visible: false,
+      stagingFilter: {}, // same as filter above
     },
     filterOptions: {
       periods: [],
