@@ -53,14 +53,19 @@ export const doFilter = ({ state }) => {
     const bp = state.masterdata.byperiod[periodName];
     filteredPeriods[periodName] = bp.filter(stageData => {
       if (!stageData.STAGE.toUpperCase().includes(filter.queryStr.toUpperCase())) {
-        console.log('query string denies inclusion of '+stageData.STAGE);
+        console.log('query string denies inclusion of ' + stageData.STAGE);
         return false;
       }
       console.log('region type is: ', typeof stageData.Region);
       if (filter.region && ((typeof stageData.Region !== 'string') || !stageData.Region.toUpperCase().includes(filter.region.toUpperCase()))) {
-        console.log('filter region denies inclusion of '+stageData.STAGE);
+        console.log('filter region denies inclusion of ' + stageData.STAGE);
         return false;
       }
+
+      if (filter.topAge && filter.bottomAge && (stageData.Base < parseFloat(filter.topAge) || stageData.TOP > parseFloat(filter.bottomAge))) {
+        return false;
+      }
+
       return true;
     });
   });
@@ -74,7 +79,7 @@ export const mergeFilter = ({ state, actions }, toMerge) => {
   };
 
   actions.doFilter();
-  
+
   console.log(state);
 };
 
