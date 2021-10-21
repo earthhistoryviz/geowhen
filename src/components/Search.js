@@ -9,7 +9,7 @@ const Search = (props) => {
 
   const fm = state.view.filterModal;
   const filterOptions = state.view.filterOptions;
-  const filterState = state.filter;
+  const filterState = fm.stagingFilter;
 
   const handleCloseModal = () => actions.toggleFilterModal();
   const handleShowModal = () => actions.toggleFilterModal();
@@ -32,7 +32,7 @@ const Search = (props) => {
             <Form>
               <h5>Search by:</h5>
               <FloatingLabel className='my-2' controlId='floatingSelect' label='By Period'>
-                <Form.Select onChange={event => actions.mergeFilter({ period: event.target.value })} aria-label='Floating label select example'>
+                <Form.Select onChange={event => actions.mergeStagingFilter({ period: event.target.value })} aria-label='Floating label select example'>
                   <option value='' selected={!filterState.period}>All</option>
                   {filterOptions.periods.map((period, index) => (
                     <option key={index} value={period} selected={period === filterState.period}>{period}</option>
@@ -41,7 +41,7 @@ const Search = (props) => {
               </FloatingLabel>
 
               <FloatingLabel className='my-2' controlId='floatingSelect' label='By Region'>
-                <Form.Select onChange={event => actions.mergeFilter({ region: event.target.value })} aria-label='Floating label select example'>
+                <Form.Select onChange={event => actions.mergeStagingFilter({ region: event.target.value })} aria-label='Floating label select example'>
                   <option value='' selected={!filterState.region}>All</option>
                   {filterOptions.regions.map((region, index) => (
                     <option key={index} value={region} selected={region === filterState.region}>{region}</option>
@@ -57,7 +57,7 @@ const Search = (props) => {
                   <Form.Control
                     type='number'
                     placeholder='Lower Bound'
-                    onChange={event => { actions.mergeFilter({ bottomAge: event.target.value }); }}
+                    onChange={event => { actions.mergeStagingFilter({ bottomAge: event.target.value }); }}
                   />
                 </Col>
                 <Col className='d-flex justify-content-center' sm='2'>
@@ -67,7 +67,7 @@ const Search = (props) => {
                   <Form.Control
                     type='number'
                     placeholder='Upper Bound'
-                    onChange={event => { actions.mergeFilter({ topAge: event.target.value }); }}
+                    onChange={event => { actions.mergeStagingFilter({ topAge: event.target.value }); }}
                   />
                 </Col>
               </Form.Group>
@@ -77,7 +77,7 @@ const Search = (props) => {
 
               <Form.Group
                 className='mb-3'
-                onChange={event => { actions.mergeFilter({ sortBy: event.target.value }); }}
+                onChange={event => { actions.mergeStagingFilter({ sortBy: event.target.value }); }}
               >
                 <Form.Check
                   type='radio'

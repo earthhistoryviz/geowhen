@@ -15,7 +15,7 @@ function App () {
 
   const state = useAppState();
   const actions = useActions();
-
+  //const result = masterdata.displayedStages("Quaternary");
   const { isLoading, masterdata } = state;
 
   const searchUpdated = (evt) => {
@@ -30,16 +30,20 @@ function App () {
           <>
             <Search onChange={searchUpdated}/>
             <div
-              className='mt-3 border shadow-sm'
+              className='mt-5 border shadow-sm'
               style={{ height: '400px', overflowX: 'scroll' }}
             >
-              <div className='mx-auto row px-2 w-100'>
+              <div className='scrolling-wrapper row flex-row flex-nowrap mt-4 pb-4 pt-2'>
 
-                {Object.keys(masterdata.displayedStages).map((periodName, index) => (
-                  <div className='row' key={index}>
+                {Object.keys(masterdata.displayedStages).map((periodName, index) => {
+                  if (masterdata.displayedStages[periodName] && masterdata.displayedStages[periodName].length < 1) {
+                    return '';
+                  }
+                  return (
+                  <div className='col' align="center" style={{ border: "1px solid #DDDDDD", borderRadius: "3px", boxShadow: "3px 3px #CCCCC", margin: "5px 5px 5px 5px" }} key={index}>
                     <strong>{periodName}</strong>
                     {masterdata.displayedStages[periodName].map((stage, index) => (
-                      <div key={index} className='my-2 col-2 d-flex justify-content-center'>
+                      <div key={index} className='my-2 col-8 d-flex justify-content-center'>
 
                         <Button>
                           {stage.STAGE}
@@ -48,11 +52,12 @@ function App () {
 
                     ))}
                   </div>
-                ))}
+                )})}
 
               </div>
-
+              
             </div>
+              
           </>
           )
         : <p>Loading...</p>}
