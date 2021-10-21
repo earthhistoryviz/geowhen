@@ -73,7 +73,16 @@ export const doFilter = ({ state }) => {
       }
       return true;
     });
+
+    if (filter.sortBy === 'alphabet') {
+      filteredPeriods[periodName].sort((a, b) => {
+        if (a.STAGE < b.STAGE) return -1;
+        else if (a.STAGE > b.STAGE) return 1;
+        else return 0;
+      });
+    }
   });
+
   state.masterdata.displayedStages = filteredPeriods;
 };
 
@@ -84,6 +93,7 @@ export const mergeFilter = ({ state, actions }, toMerge) => {
   };
 
   actions.doFilter();
+  console.log(state.filter);
 };
 
 export const mergeStagingFilter = ({ state, actions }, toMerge) => {
