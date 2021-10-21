@@ -80,6 +80,14 @@ export const doFilter = ({ state }) => {
         else if (a.STAGE > b.STAGE) return 1;
         else return 0;
       });
+    } else if (filter.sortBy === 'age') {
+      filteredPeriods[periodName].sort((a, b) => {
+        if (a.Base < b.Base) return -1;
+        else if (a.Base > b.Base) return 1;
+        else return 0;
+      });
+    } else if (filter.sortBy === 'region') {
+      // might need to change UI for this
     }
   });
 
