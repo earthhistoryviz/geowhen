@@ -11,6 +11,13 @@ if (!window.processGithubResponse) {
   };
 }
 
+function imageExists(image_url){
+  var http = new XMLHttpRequest();
+  http.open('HEAD', image_url, false);
+  http.send();
+  return http.status != 404;
+}
+
 function App () {
 
   const state = useAppState();
@@ -25,6 +32,9 @@ function App () {
   let stageimage = false;
   if (state.selectedItem) {
     stageimage = `/geowhen/stage-charts/${state.selectedItem.Period.toUpperCase()}_regional.jpg`;
+    if (!imageExists(stageimage)) {
+      stageimage = false;
+    }
   }
 
   return (
@@ -80,14 +90,12 @@ function App () {
                   Base Age: { +(state.selectedItem.Base).toFixed(3) }
                 </div>
                 <div>
-                  Base Calibration: { state.selectedItem['Base calibration'] }
-                </div>
-                <div>
                   Top Calibration: { state.selectedItem['Top calibration'] }
                 </div>
-                Image path: {stageimage}
-                
-                <img src={stageimage} />
+                <div>
+                  Base Calibration: { state.selectedItem['Base calibration'] }
+                </div>
+                { stageimage ? <img src={stageimage} /> : '' }
               </div>
             }
               

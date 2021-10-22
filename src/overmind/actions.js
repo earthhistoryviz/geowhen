@@ -112,8 +112,12 @@ export const mergeStagingFilter = ({ state }, toMerge) => {
 };
 
 export const applyFilters = ({ state, actions }) => {
+  const sf = state.view.filterModal.stagingFilter;
   state.view.filterModal.visible = !state.view.filterModal.visible;
-  state.filter = { ...state.view.filterModal.stagingFilter };
+  if (sf.bottomAge && !sf.topAge) {
+    sf.topAge = sf.bottomAge;
+  }
+  state.filter = { ...sf };
   actions.doFilter();
 };
 
