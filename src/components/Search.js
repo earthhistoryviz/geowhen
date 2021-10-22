@@ -112,7 +112,7 @@ const Search = (props) => {
             <Button variant='secondary' onClick={handleCloseModal}>
               Close
             </Button>
-            <Button variant='danger' onClick={handleCloseModal}>
+            <Button variant='danger' onClick={actions.resetFilters}>
               Reset
             </Button>
             <Button variant='primary' onClick={handleSubmit}>

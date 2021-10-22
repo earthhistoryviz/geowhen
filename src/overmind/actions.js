@@ -117,6 +117,17 @@ export const applyFilters = ({ state, actions }) => {
   actions.doFilter();
 };
 
+export const resetFilters = ({ state }) => {
+  state.view.filterModal.stagingFilter = {
+    period: false,
+    region: false,
+    topAge: false,
+    bottomAge: false,
+    sortBy: false,
+    queryStr: ''
+  };
+};
+
 export const toggleFilterModal = ({ state }) => {
   if (!state.view.filterModal.visible) {
     state.view.filterModal.stagingFilter = { ...state.filter };
