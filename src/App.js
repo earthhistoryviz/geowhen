@@ -24,8 +24,7 @@ function App () {
 
   let stageimage = false;
   if (state.selectedItem) {
-    const stageimagename = `${state.selectedItem.Period}_regional
-    
+    stageimage = `/geowhen/stage-charts/${state.selectedItem.Period.toUpperCase()}_regional.jpg`;
   }
 
   return (
@@ -86,6 +85,9 @@ function App () {
                 <div>
                   Top Calibration: { state.selectedItem['Top calibration'] }
                 </div>
+                Image path: {stageimage}
+                
+                <img src={stageimage} />
               </div>
             }
               
