@@ -1,5 +1,6 @@
 export const state = {
   isLoading: true,
+  selectedItem: false,
   masterdata: {
     byperiod: {},
     displayedStages: {}, // same format as byperiod

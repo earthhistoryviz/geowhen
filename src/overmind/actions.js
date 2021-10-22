@@ -123,3 +123,7 @@ export const toggleFilterModal = ({ state }) => {
   }
   state.view.filterModal.visible = !state.view.filterModal.visible;
 };
+
+export const selectItem = ({ state }, selected) => {
+  state.selectedItem = { ...selected };
+}

@@ -22,6 +22,12 @@ function App () {
     actions.mergeFilter({ queryStr: evt.target.value });
   };
 
+  let stageimage = false;
+  if (state.selectedItem) {
+    const stageimagename = `${state.selectedItem.Period}_regional
+    
+  }
+
   return (
     <div className='mx-auto mt-4' style={{ width: '90%' }}>
       {/* Will show "loading..." when the stages data is not loaded */}
@@ -45,7 +51,7 @@ function App () {
                     {masterdata.displayedStages[periodName].map((stage, index) => (
                       <div key={index} className='my-2 col-8 d-flex justify-content-center'>
 
-                        <Button>
+                        <Button onClick={() => { actions.selectItem(stage) }}>
                           {stage.STAGE}
                         </Button>
                       </div>
@@ -57,6 +63,31 @@ function App () {
               </div>
               
             </div>
+
+            { /* Main content */ } 
+            {!state.selectedItem ? '' : 
+              <div className='mt-5 border shadow-sm'>
+
+                <div>
+                  { state.selectedItem.STAGE } (Period: { state.selectedItem.Period })
+                </div>
+                <div>
+                  Region: { state.selectedItem.Region }
+                </div>
+                <div>
+                  Top Age: { +(state.selectedItem.TOP).toFixed(3) }
+                </div>
+                <div>
+                  Base Age: { +(state.selectedItem.Base).toFixed(3) }
+                </div>
+                <div>
+                  Base Calibration: { state.selectedItem['Base calibration'] }
+                </div>
+                <div>
+                  Top Calibration: { state.selectedItem['Top calibration'] }
+                </div>
+              </div>
+            }
               
           </>
           )
