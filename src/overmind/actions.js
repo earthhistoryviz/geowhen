@@ -104,7 +104,7 @@ export const mergeFilter = ({ state, actions }, toMerge) => {
   console.log(state.filter);
 };
 
-export const mergeStagingFilter = ({ state, actions }, toMerge) => {
+export const mergeStagingFilter = ({ state }, toMerge) => {
   state.view.filterModal.stagingFilter = {
     ...state.view.filterModal.stagingFilter,
     ...toMerge
