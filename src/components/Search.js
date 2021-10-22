@@ -58,6 +58,7 @@ const Search = (props) => {
                     type='number'
                     placeholder='Lower Bound'
                     onChange={event => { actions.mergeStagingFilter({ bottomAge: event.target.value }); }}
+                    value={filterState.bottomAge}
                   />
                 </Col>
                 <Col className='d-flex justify-content-center' sm='2'>
@@ -68,6 +69,7 @@ const Search = (props) => {
                     type='number'
                     placeholder='Upper Bound'
                     onChange={event => { actions.mergeStagingFilter({ topAge: event.target.value }); }}
+                    value={filterState.topAge}
                   />
                 </Col>
               </Form.Group>
@@ -84,19 +86,21 @@ const Search = (props) => {
                   name='sortBy'
                   label='sort-alphabetically'
                   value='alphabet'
+                  checked={filterState.sortBy === 'alphabet'}
                 />
                 <Form.Check
                   type='radio'
                   name='sortBy'
                   label='sort-by-age'
                   value='age'
-
+                  checked={filterState.sortBy === 'age'}
                 />
                 <Form.Check
                   type='radio'
                   name='sortBy'
                   label='sort-by-region'
                   value='region'
+                  checked={filterState.sortBy === 'region'}
                 />
               </Form.Group>
               <hr />
@@ -108,7 +112,7 @@ const Search = (props) => {
             <Button variant='secondary' onClick={handleCloseModal}>
               Close
             </Button>
-            <Button variant='danger' onClick={handleCloseModal}>
+            <Button variant='danger' onClick={actions.resetFilters}>
               Reset
             </Button>
             <Button variant='primary' onClick={handleSubmit}>

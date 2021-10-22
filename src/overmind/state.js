@@ -12,12 +12,12 @@ export const state = {
     topAge: false,
     bottomAge: false,
     sortBy: false,
-    queryStr: '',
+    queryStr: ''
   },
   view: {
     filterModal: {
       visible: false,
-      stagingFilter: {}, // same as filter above
+      stagingFilter: {} // same as filter above
     },
     filterOptions: {
       periods: [],

@@ -104,7 +104,7 @@ export const mergeFilter = ({ state, actions }, toMerge) => {
   console.log(state.filter);
 };
 
-export const mergeStagingFilter = ({ state, actions }, toMerge) => {
+export const mergeStagingFilter = ({ state }, toMerge) => {
   state.view.filterModal.stagingFilter = {
     ...state.view.filterModal.stagingFilter,
     ...toMerge
@@ -115,6 +115,17 @@ export const applyFilters = ({ state, actions }) => {
   state.view.filterModal.visible = !state.view.filterModal.visible;
   state.filter = { ...state.view.filterModal.stagingFilter };
   actions.doFilter();
+};
+
+export const resetFilters = ({ state }) => {
+  state.view.filterModal.stagingFilter = {
+    period: false,
+    region: false,
+    topAge: false,
+    bottomAge: false,
+    sortBy: false,
+    queryStr: ''
+  };
 };
 
 export const toggleFilterModal = ({ state }) => {
