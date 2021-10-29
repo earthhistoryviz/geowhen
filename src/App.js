@@ -78,15 +78,15 @@ function App () {
               <div className='mt-5 border shadow-sm row flex-nowrap mt-4 pb-4 pt-2' style={{  border: "20px solid ", borderRadius: "10px"}}>
                 <div style={{width: '500px'}} align="center" >
                   <div style={{ width: '480px', border: "1px solid #DDDDDD", borderRadius: "3px", boxShadow: "3px 3px #CCCCC", margin: "5px 5px 5px 5px" }}>
-                    <div style={{ fontWeight:"bold"}}>
-                      (Period: { state.selectedItem.Period })
-                    </div>
-                    <div>
+                    <div style={{ fontSize: '34px' }}>
                       { state.selectedItem.STAGE }
+                    </div>
+                    <div style={{ fontWeight:"normal"}}>
+                      (Period: { state.selectedItem.Period })
                     </div>
                   </div>
                   <div style={{ width: '480px', border: "1px solid #DDDDDD", borderRadius: "3px", boxShadow: "3px 3px #CCCCC", margin: "5px 5px 5px 5px" }}>
-                    <div style={{ fontWeight:"bold"}}>
+                    <div style={{ fontWeight:""}}>
                       Region: 
                     </div>
                     <div>
