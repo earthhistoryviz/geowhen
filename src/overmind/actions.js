@@ -137,4 +137,4 @@ export const toggleFilterModal = ({ state }) => {
 
 export const selectItem = ({ state }, selected) => {
   state.selectedItem = { ...selected };
-}
+};

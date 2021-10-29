@@ -1,6 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-
 import Button from 'react-bootstrap/Button';
 import Search from './components/Search';
 import { useAppState, useActions } from './overmind';
@@ -12,10 +11,12 @@ if (!window.processGithubResponse) {
 }
 
 function App () {
-
   const state = useAppState();
   const actions = useActions();
-  //const result = masterdata.displayedStages("Quaternary");
+
+  const periodColors = state.view.periodColors;
+
+  // const result = masterdata.displayedStages("Quaternary");
   const { isLoading, masterdata } = state;
 
   const searchUpdated = (evt) => {
@@ -33,7 +34,7 @@ function App () {
       {!isLoading
         ? (
           <>
-            <Search onChange={searchUpdated}/>
+            <Search onChange={searchUpdated} />
             <div
               className='mt-5 border shadow-sm'
               style={{ height: '400px', overflowX: 'scroll' }}
@@ -45,52 +46,52 @@ function App () {
                     return '';
                   }
                   return (
-                  <div className='col' align="center" style={{ border: "1px solid #DDDDDD", borderRadius: "3px", boxShadow: "3px 3px #CCCCC", margin: "5px 5px 5px 5px" }} key={index}>
-                    <strong>{periodName}</strong>
-                    {masterdata.displayedStages[periodName].map((stage, index) => (
-                      <div key={index} className='my-2 col-8 d-flex justify-content-center'>
+                    <div className='col' align='center' style={{ border: '1px solid #DDDDDD', borderRadius: '3px', boxShadow: '3px 3px #CCCCC', margin: '5px 5px 5px 5px' }} key={index}>
+                      <strong>{periodName}</strong>
+                      {masterdata.displayedStages[periodName].map((stage, index) => (
+                        <div key={index} className='my-2 col-8 d-flex justify-content-center'>
 
-                        <Button onClick={() => { actions.selectItem(stage) }}>
-                          {stage.STAGE}
-                        </Button>
-                      </div>
+                          <Button style={{ backgroundColor: periodColors[stage.Period] }} onClick={() => { actions.selectItem(stage); }}>
+                            {stage.STAGE}
+                          </Button>
+                        </div>
 
-                    ))}
-                  </div>
-                )})}
+                      ))}
+                    </div>
+                  );
+                })}
 
               </div>
-              
+
             </div>
 
-            { /* Main content */ } 
-            {!state.selectedItem ? '' : 
-              <div className='mt-5 border shadow-sm'>
+            {/* Main content */}
+            {!state.selectedItem ? ''
+              : <div className='mt-5 border shadow-sm'>
 
                 <div>
-                  { state.selectedItem.STAGE } (Period: { state.selectedItem.Period })
+                  {state.selectedItem.STAGE} (Period: {state.selectedItem.Period})
                 </div>
                 <div>
-                  Region: { state.selectedItem.Region }
+                  Region: {state.selectedItem.Region}
                 </div>
                 <div>
-                  Top Age: { +(state.selectedItem.TOP).toFixed(3) }
+                  Top Age: {+(state.selectedItem.TOP).toFixed(3)}
                 </div>
                 <div>
-                  Base Age: { +(state.selectedItem.Base).toFixed(3) }
+                  Base Age: {+(state.selectedItem.Base).toFixed(3)}
                 </div>
                 <div>
-                  Base Calibration: { state.selectedItem['Base calibration'] }
+                  Base Calibration: {state.selectedItem['Base calibration']}
                 </div>
                 <div>
-                  Top Calibration: { state.selectedItem['Top calibration'] }
+                  Top Calibration: {state.selectedItem['Top calibration']}
                 </div>
                 Image path: {stageimage}
-                
+
                 <img src={stageimage} />
-              </div>
-            }
-              
+                </div>}
+
           </>
           )
         : <p>Loading...</p>}
