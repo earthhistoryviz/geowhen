@@ -98,7 +98,7 @@ const Search = (props) => {
                 <Form.Check
                   type='radio'
                   name='sortBy'
-                  label='sort-by-region'
+                  label='sort-by-region (coming soon)'
                   value='region'
                   checked={filterState.sortBy === 'region'}
                 />

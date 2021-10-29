@@ -10,6 +10,13 @@ if (!window.processGithubResponse) {
   };
 }
 
+function imageExists (image_url) {
+  let http = new XMLHttpRequest();
+  http.open('HEAD', image_url, false);
+  http.send();
+  return http.status != 404;
+}
+
 function App () {
   const state = useAppState();
   const actions = useActions();
@@ -26,6 +33,9 @@ function App () {
   let stageimage = false;
   if (state.selectedItem) {
     stageimage = `/geowhen/stage-charts/${state.selectedItem.Period.toUpperCase()}_regional.jpg`;
+    if (!imageExists(stageimage)) {
+      stageimage = false;
+    }
   }
 
   return (
@@ -67,30 +77,62 @@ function App () {
 
             {/* Main content */}
             {!state.selectedItem ? ''
-              : <div className='mt-5 border shadow-sm'>
+              : <div className='mt-5 border shadow-sm row flex-nowrap mt-4 pb-4 pt-2' style={{ border: '20px solid ', borderRadius: '10px' }}>
+                <div style={{ width: '500px' }} align='center'>
+                  <div style={{ width: '480px', border: '1px solid #DDDDDD', borderRadius: '3px', boxShadow: '3px 3px #CCCCC', margin: '5px 5px 5px 5px' }}>
+                    <div style={{ fontSize: '34px' }}>
+                      {state.selectedItem.STAGE}
+                    </div>
+                    <div style={{ fontWeight: 'normal' }}>
+                      (Period: {state.selectedItem.Period})
+                    </div>
+                  </div>
+                  <div style={{ width: '480px', border: '1px solid #DDDDDD', borderRadius: '3px', boxShadow: '3px 3px #CCCCC', margin: '5px 5px 5px 5px' }}>
+                    <div style={{ fontWeight: '' }}>
+                      Region:
+                    </div>
+                    <div>
+                      {state.selectedItem.Region}
+                    </div>
+                  </div>
+                  <div style={{ width: '480px', border: '1px solid #DDDDDD', borderRadius: '3px', boxShadow: '3px 3px #CCCCC', margin: '5px 5px 5px 5px' }}>
+                    <div style={{ fontWeight: 'bold' }}>
+                      Top Age:
+                    </div>
+                    <div>
+                      {+(state.selectedItem.TOP).toFixed(3)}
+                    </div>
+                  </div>
+                  <div style={{ width: '480px', border: '1px solid #DDDDDD', borderRadius: '3px', boxShadow: '3px 3px #CCCCC', margin: '5px 5px 5px 5px' }}>
+                    <div style={{ fontWeight: 'bold' }}>
+                      Base Age:
+                    </div>
+                    <div>
+                      {+(state.selectedItem.Base).toFixed(3)}
+                    </div>
+                  </div>
+                  <div style={{ width: '480px', border: '1px solid #DDDDDD', borderRadius: '3px', boxShadow: '3px 3px #CCCCC', margin: '5px 5px 5px 5px' }}>
+                    <div style={{ fontWeight: 'bold' }}>
+                      Top Calibration:
+                    </div>
+                    <div>
+                      {state.selectedItem['Top calibration']}
+                    </div>
+                  </div>
+                  <div style={{ width: '480px', border: '1px solid #DDDDDD', borderRadius: '3px', boxShadow: '3px 3px #CCCCC', margin: '5px 5px 5px 5px' }}>
+                    <div style={{ fontWeight: 'bold' }}>
+                      Base Calibration:
+                    </div>
+                    <div>
+                      {state.selectedItem['Base calibration']}
+                    </div>
+                  </div>
 
-                <div>
-                  {state.selectedItem.STAGE} (Period: {state.selectedItem.Period})
                 </div>
                 <div>
-                  Region: {state.selectedItem.Region}
+                  {stageimage ? <img src={stageimage} /> : ''}
                 </div>
-                <div>
-                  Top Age: {+(state.selectedItem.TOP).toFixed(3)}
-                </div>
-                <div>
-                  Base Age: {+(state.selectedItem.Base).toFixed(3)}
-                </div>
-                <div>
-                  Base Calibration: {state.selectedItem['Base calibration']}
-                </div>
-                <div>
-                  Top Calibration: {state.selectedItem['Top calibration']}
-                </div>
-                Image path: {stageimage}
-
-                <img src={stageimage} />
-                </div>}
+              </div>}
 
           </>
           )
