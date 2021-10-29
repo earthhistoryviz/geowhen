@@ -1,6 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-
 import Button from 'react-bootstrap/Button';
 import Search from './components/Search';
 import { useAppState, useActions } from './overmind';
@@ -11,18 +10,20 @@ if (!window.processGithubResponse) {
   };
 }
 
-function imageExists(image_url){
-  var http = new XMLHttpRequest();
+function imageExists (image_url) {
+  let http = new XMLHttpRequest();
   http.open('HEAD', image_url, false);
   http.send();
   return http.status != 404;
 }
 
 function App () {
-
   const state = useAppState();
   const actions = useActions();
-  //const result = masterdata.displayedStages("Quaternary");
+
+  const periodColors = state.view.periodColors;
+
+  // const result = masterdata.displayedStages("Quaternary");
   const { isLoading, masterdata } = state;
 
   const searchUpdated = (evt) => {
@@ -43,7 +44,7 @@ function App () {
       {!isLoading
         ? (
           <>
-            <Search onChange={searchUpdated}/>
+            <Search onChange={searchUpdated} />
             <div
               className='mt-5 border shadow-sm'
               style={{ height: '400px', overflowX: 'scroll' }}
@@ -55,84 +56,84 @@ function App () {
                     return '';
                   }
                   return (
-                  <div className='col' align="center" style={{ border: "1px solid #DDDDDD", borderRadius: "3px", boxShadow: "3px 3px #CCCCC", margin: "5px 5px 5px 5px" }} key={index}>
-                    <strong>{periodName}</strong>
-                    {masterdata.displayedStages[periodName].map((stage, index) => (
-                      <div key={index} className='my-2 col-8 d-flex justify-content-center'>
+                    <div className='col' align='center' style={{ border: '1px solid #DDDDDD', borderRadius: '3px', boxShadow: '3px 3px #CCCCC', margin: '5px 5px 5px 5px' }} key={index}>
+                      <strong>{periodName}</strong>
+                      {masterdata.displayedStages[periodName].map((stage, index) => (
+                        <div key={index} className='my-2 col-8 d-flex justify-content-center'>
 
-                        <Button onClick={() => { actions.selectItem(stage) }}>
-                          {stage.STAGE}
-                        </Button>
-                      </div>
+                          <Button style={{ backgroundColor: periodColors[stage.Period] }} onClick={() => { actions.selectItem(stage); }}>
+                            {stage.STAGE}
+                          </Button>
+                        </div>
 
-                    ))}
-                  </div>
-                )})}
+                      ))}
+                    </div>
+                  );
+                })}
 
               </div>
-              
+
             </div>
 
-            { /* Main content */ } 
-            {!state.selectedItem ? '' : 
-              <div className='mt-5 border shadow-sm row flex-nowrap mt-4 pb-4 pt-2' style={{  border: "20px solid ", borderRadius: "10px"}}>
-                <div style={{width: '500px'}} align="center" >
-                  <div style={{ width: '480px', border: "1px solid #DDDDDD", borderRadius: "3px", boxShadow: "3px 3px #CCCCC", margin: "5px 5px 5px 5px" }}>
+            {/* Main content */}
+            {!state.selectedItem ? ''
+              : <div className='mt-5 border shadow-sm row flex-nowrap mt-4 pb-4 pt-2' style={{ border: '20px solid ', borderRadius: '10px' }}>
+                <div style={{ width: '500px' }} align='center'>
+                  <div style={{ width: '480px', border: '1px solid #DDDDDD', borderRadius: '3px', boxShadow: '3px 3px #CCCCC', margin: '5px 5px 5px 5px' }}>
                     <div style={{ fontSize: '34px' }}>
-                      { state.selectedItem.STAGE }
+                      {state.selectedItem.STAGE}
                     </div>
-                    <div style={{ fontWeight:"normal"}}>
-                      (Period: { state.selectedItem.Period })
+                    <div style={{ fontWeight: 'normal' }}>
+                      (Period: {state.selectedItem.Period})
                     </div>
                   </div>
-                  <div style={{ width: '480px', border: "1px solid #DDDDDD", borderRadius: "3px", boxShadow: "3px 3px #CCCCC", margin: "5px 5px 5px 5px" }}>
-                    <div style={{ fontWeight:""}}>
-                      Region: 
+                  <div style={{ width: '480px', border: '1px solid #DDDDDD', borderRadius: '3px', boxShadow: '3px 3px #CCCCC', margin: '5px 5px 5px 5px' }}>
+                    <div style={{ fontWeight: '' }}>
+                      Region:
                     </div>
                     <div>
-                      { state.selectedItem.Region }
+                      {state.selectedItem.Region}
                     </div>
                   </div>
-                  <div style={{ width: '480px', border: "1px solid #DDDDDD", borderRadius: "3px", boxShadow: "3px 3px #CCCCC", margin: "5px 5px 5px 5px" }}>
-                    <div style={{ fontWeight:"bold"}}>
-                      Top Age: 
+                  <div style={{ width: '480px', border: '1px solid #DDDDDD', borderRadius: '3px', boxShadow: '3px 3px #CCCCC', margin: '5px 5px 5px 5px' }}>
+                    <div style={{ fontWeight: 'bold' }}>
+                      Top Age:
                     </div>
                     <div>
-                      { +(state.selectedItem.TOP).toFixed(3) }
+                      {+(state.selectedItem.TOP).toFixed(3)}
                     </div>
                   </div>
-                  <div style={{ width: '480px', border: "1px solid #DDDDDD", borderRadius: "3px", boxShadow: "3px 3px #CCCCC", margin: "5px 5px 5px 5px" }}>
-                    <div style={{ fontWeight:"bold"}}>
-                      Base Age: 
+                  <div style={{ width: '480px', border: '1px solid #DDDDDD', borderRadius: '3px', boxShadow: '3px 3px #CCCCC', margin: '5px 5px 5px 5px' }}>
+                    <div style={{ fontWeight: 'bold' }}>
+                      Base Age:
                     </div>
                     <div>
-                      { +(state.selectedItem.Base).toFixed(3) }
+                      {+(state.selectedItem.Base).toFixed(3)}
                     </div>
                   </div>
-                  <div style={{ width: '480px', border: "1px solid #DDDDDD", borderRadius: "3px", boxShadow: "3px 3px #CCCCC", margin: "5px 5px 5px 5px" }}>
-                    <div style={{ fontWeight:"bold"}}>
-                      Top Calibration: 
+                  <div style={{ width: '480px', border: '1px solid #DDDDDD', borderRadius: '3px', boxShadow: '3px 3px #CCCCC', margin: '5px 5px 5px 5px' }}>
+                    <div style={{ fontWeight: 'bold' }}>
+                      Top Calibration:
                     </div>
                     <div>
-                      { state.selectedItem['Top calibration'] }
+                      {state.selectedItem['Top calibration']}
                     </div>
                   </div>
-                  <div style={{ width: '480px', border: "1px solid #DDDDDD", borderRadius: "3px", boxShadow: "3px 3px #CCCCC", margin: "5px 5px 5px 5px" }}>
-                    <div style={{ fontWeight:"bold"}}>
+                  <div style={{ width: '480px', border: '1px solid #DDDDDD', borderRadius: '3px', boxShadow: '3px 3px #CCCCC', margin: '5px 5px 5px 5px' }}>
+                    <div style={{ fontWeight: 'bold' }}>
                       Base Calibration:
                     </div>
-                    <div> 
-                      { state.selectedItem['Base calibration'] }
+                    <div>
+                      {state.selectedItem['Base calibration']}
                     </div>
                   </div>
-                  
+
                 </div>
                 <div>
-                  { stageimage ? <img src={stageimage} /> : '' }
+                  {stageimage ? <img src={stageimage} /> : ''}
                 </div>
-              </div>
-            }
-              
+              </div>}
+
           </>
           )
         : <p>Loading...</p>}
