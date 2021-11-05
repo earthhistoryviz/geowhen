@@ -23,21 +23,6 @@ export const state = {
       periods: [],
       regions: []
     },
-    periodColors: {
-      ARCHEAN: 'red',
-      CAMBRIAN: 'black',
-      CARBONIFEROUS: 'green',
-      CRETACEOUS: 'blue',
-      DEVONIAN: 'yellow',
-      JURASSIC: 'pink',
-      NEOGENE: 'orange',
-      ORDOVICIAN: 'maroon',
-      PALEOGENE: 'lime',
-      PERMIAN: 'olive',
-      PROTERO: 'navy',
-      QUATERNARY: 'beige',
-      SILURIAN: 'coral',
-      TRIASSIC: 'cyan'
-    }
+    stageColors: {}
   }
 };

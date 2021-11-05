@@ -39,6 +39,32 @@ export const onInitializeOvermind = async ({ state }) => {
   state.view.filterOptions.periods = Array.from(options.periods);
   state.view.filterOptions.regions = Array.from(options.regions);
 
+  // Populate colors
+  const colorsResult = await axios.get('https://api.github.com/repos/earthhistoryviz/geowhen/contents/data/default_timescale.xlsx', {
+    headers: {
+      Accept: 'application/vnd.github.v3.raw'
+    },
+    responseType: 'arraybuffer'
+  });
+  const colorsSpreadsheet = xlsx.read(new Uint8Array(colorsResult.data), { type: 'array' });
+  const colorsMasterdata = xlsx.utils.sheet_to_json(colorsSpreadsheet.Sheets.MasterChronostrat).slice(1);
+  console.log(colorsMasterdata);
+
+  // const colorLookup = colorsMasterdata.reduce((acc, row) => {
+  //   const rgb = row['Color (internat)'].split('/');
+  //   acc[row.Ma] = 'rgb(' + rgb.join(', ') + ')';
+  //   return acc;
+  // }, {});
+
+  const colorLookup = colorsMasterdata.map((row) => {
+    const rgb = row['Color (internat)'].split('/');
+    return { baseAge: row.Ma, color: 'rgb(' + rgb.join(', ') + ')' };
+  });
+
+  console.log(colorLookup);
+
+  state.view.stageColors = colorLookup;
+
   state.isLoading = false;
 };
 

@@ -11,7 +11,7 @@ if (!window.processGithubResponse) {
 }
 
 function imageExists (image_url) {
-  let http = new XMLHttpRequest();
+  const http = new XMLHttpRequest();
   http.open('HEAD', image_url, false);
   http.send();
   return http.status != 404;
@@ -21,7 +21,7 @@ function App () {
   const state = useAppState();
   const actions = useActions();
 
-  const periodColors = state.view.periodColors;
+  const stageColors = state.view.stageColors;
 
   // const result = masterdata.displayedStages("Quaternary");
   const { isLoading, masterdata } = state;
@@ -55,18 +55,30 @@ function App () {
                   if (masterdata.displayedStages[periodName] && masterdata.displayedStages[periodName].length < 1) {
                     return '';
                   }
+
                   return (
                     <div className='col' align='center' style={{ border: '1px solid #DDDDDD', borderRadius: '3px', boxShadow: '3px 3px #CCCCC', margin: '5px 5px 5px 5px' }} key={index}>
                       <strong>{periodName}</strong>
-                      {masterdata.displayedStages[periodName].map((stage, index) => (
-                        <div key={index} className='my-2 col-8 d-flex justify-content-center'>
+                      {masterdata.displayedStages[periodName].map((stage, index) => {
+                        let currColor = stageColors[0].color;
 
-                          <Button style={{ backgroundColor: periodColors[stage.Period] }} onClick={() => { actions.selectItem(stage); }}>
-                            {stage.STAGE}
-                          </Button>
-                        </div>
+                        for (let i = 0; i < stageColors.length; i++) {
+                          if (stage.Base > stageColors[i].baseAge) {
+                            currColor = stageColors[i].color;
+                          } else {
+                            break;
+                          }
+                        }
 
-                      ))}
+                        return (
+                          <div key={index} className='my-2 col-8 d-flex justify-content-center'>
+
+                            <Button style={{ backgroundColor: currColor }} onClick={() => { actions.selectItem(stage); }}>
+                              {stage.STAGE}
+                            </Button>
+                          </div>
+                        );
+                      })}
                     </div>
                   );
                 })}
@@ -132,7 +144,7 @@ function App () {
                 <div>
                   {stageimage ? <img src={stageimage} /> : ''}
                 </div>
-              </div>}
+                </div>}
 
           </>
           )
