@@ -58,7 +58,7 @@ export const onInitializeOvermind = async ({ state }) => {
 
   const colorLookup = colorsMasterdata.map((row) => {
     const rgb = row['Color (internat)'].split('/');
-    return { baseAge: row.Ma, color: 'rgb(' + rgb.join(', ') + ')' };
+    return { topAge: row.Ma, color: 'rgb(' + rgb.join(', ') + ')' };
   });
 
   console.log(colorLookup);

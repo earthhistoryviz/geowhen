@@ -63,7 +63,7 @@ function App () {
                         let currColor = stageColors[0].color;
 
                         for (let i = 0; i < stageColors.length; i++) {
-                          if (stage.Base > stageColors[i].baseAge) {
+                          if (stage.TOP > stageColors[i].topAge) {
                             currColor = stageColors[i].color;
                           } else {
                             break;
@@ -73,7 +73,7 @@ function App () {
                         return (
                           <div key={index} className='my-2 col-8 d-flex justify-content-center'>
 
-                            <Button style={{ backgroundColor: currColor }} onClick={() => { actions.selectItem(stage); }}>
+                            <Button style={{ backgroundColor: currColor, color: 'black' }} onClick={() => { actions.selectItem(stage); }}>
                               {stage.STAGE}
                             </Button>
                           </div>
