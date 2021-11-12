@@ -63,8 +63,8 @@ function App () {
                         let currColor = stageColors[0].color;
 
                         for (let i = 0; i < stageColors.length; i++) {
-                          if (stage.TOP > stageColors[i].topAge) {
-                            currColor = stageColors[i].color;
+                          if (stage.Base > stageColors[i].topAge) {
+                            currColor = stageColors[i+1].color;
                           } else {
                             break;
                           }
