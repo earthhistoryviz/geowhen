@@ -40,14 +40,27 @@ function App () {
 
   return (
     <div className='mx-auto mt-4' style={{ width: '90%' }}>
+      <div className='mx-auto mt-4'>{/*style={{width: '100%', minHeight: '30px', display: 'flex', flexDirection: 'row' }}> */}
+        <div>
+          <img src='/geowhen/geowhen_logo.png' height='75px' />
+        </div>
+        <div>
+          Lookup table for regional stages provided by<br/> 
+          <a href="https://ccgm.org/en/">Commission for the Geological Map of the World (UNESCO)</a>
+        </div>
+      </div>
       {/* Will show "loading..." when the stages data is not loaded */}
       {!isLoading
         ? (
           <>
             <Search onChange={searchUpdated} />
+            <div>
+              <b>Click</b> on a stage below for details, <b>Search</b> by portion of name, or <b>Filter</b> by region or geologic or numerical age.<br/>
+              Scroll down for more stages, scroll right for more periods.
+            </div>
             <div
               className='mt-5 border shadow-sm'
-              style={{ height: '400px', overflowX: 'scroll' }}
+              style={{ height: '400px', overflowX: 'scroll', marginTop: '5px !important' }}
             >
               <div className='scrolling-wrapper row flex-row flex-nowrap mt-4 pb-4 pt-2'>
 
