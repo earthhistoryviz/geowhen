@@ -2,6 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Button from 'react-bootstrap/Button';
 import Search from './components/Search';
+import StageModal from './components/StageModal';
 import { useAppState, useActions } from './overmind';
 
 if (!window.processGithubResponse) {
@@ -10,14 +11,14 @@ if (!window.processGithubResponse) {
   };
 }
 
-function imageExists (image_url) {
+function imageExists(image_url) {
   const http = new XMLHttpRequest();
   http.open('HEAD', image_url, false);
   http.send();
-  return http.status != 404;
+  return http.status !== 404;
 }
 
-function App () {
+function App() {
   const state = useAppState();
   const actions = useActions();
 
@@ -40,13 +41,13 @@ function App () {
 
   return (
     <div className='mx-auto mt-4' style={{ width: '90%' }}>
-      <div className='mx-auto mt-4'>{/*style={{width: '100%', minHeight: '30px', display: 'flex', flexDirection: 'row' }}> */}
+      <div className='mx-auto mt-4'>{/* style={{width: '100%', minHeight: '30px', display: 'flex', flexDirection: 'row' }}> */}
         <div>
           <img src='/geowhen/geowhen_logo.png' height='75px' />
         </div>
         <div>
-          Lookup table for regional stages provided by<br/> 
-          <a href="https://ccgm.org/en/">Commission for the Geological Map of the World (UNESCO)</a>
+          Lookup table for regional stages provided by<br />
+          <a href='https://ccgm.org/en/'>Commission for the Geological Map of the World (UNESCO)</a>
         </div>
       </div>
       {/* Will show "loading..." when the stages data is not loaded */}
@@ -55,7 +56,7 @@ function App () {
           <>
             <Search onChange={searchUpdated} />
             <div>
-              <b>Click</b> on a stage below for details, <b>Search</b> by portion of name, or <b>Filter</b> by region or geologic or numerical age.<br/>
+              <b>Click</b> on a stage below for details, <b>Search</b> by portion of name, or <b>Filter</b> by region or geologic or numerical age.<br />
               Scroll down for more stages, scroll right for more periods.
             </div>
             <div
@@ -77,7 +78,7 @@ function App () {
 
                         for (let i = 0; i < stageColors.length; i++) {
                           if (stage.Base > stageColors[i].topAge) {
-                            currColor = stageColors[i+1].color;
+                            currColor = stageColors[i + 1].color;
                           } else {
                             break;
                           }
@@ -101,7 +102,8 @@ function App () {
             </div>
 
             {/* Main content */}
-            {!state.selectedItem ? ''
+            <StageModal />
+            {/* {!state.selectedItem ? ''
               : <div className='mt-5 border shadow-sm row flex-nowrap mt-4 pb-4 pt-2' style={{ border: '20px solid ', borderRadius: '10px' }}>
                 <div style={{ width: '500px' }} align='center'>
                   <div style={{ width: '480px', border: '1px solid #DDDDDD', borderRadius: '3px', boxShadow: '3px 3px #CCCCC', margin: '5px 5px 5px 5px' }}>
@@ -157,10 +159,10 @@ function App () {
                 <div>
                   {stageimage ? <img src={stageimage} /> : ''}
                 </div>
-                </div>}
+              </div>} */}
 
           </>
-          )
+        )
         : <p>Loading...</p>}
 
     </div>

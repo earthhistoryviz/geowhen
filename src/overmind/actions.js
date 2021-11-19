@@ -166,5 +166,6 @@ export const toggleFilterModal = ({ state }) => {
 };
 
 export const selectItem = ({ state }, selected) => {
-  state.selectedItem = { ...selected };
+  if (selected === false) state.selectedItem = false;
+  else state.selectedItem = { ...selected };
 };

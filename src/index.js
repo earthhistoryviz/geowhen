@@ -6,6 +6,10 @@ import App from './App';
 
 import { overmind } from './overmind';
 
+if (process.env.NODE_ENV !== 'development') {
+  console.log = function () { };
+}
+
 ReactDOM.render(
   <Provider value={overmind}>
     <React.StrictMode>
