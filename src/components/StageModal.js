@@ -46,8 +46,18 @@ const StageModal = () => {
                     (Period: {state.selectedItem.Period})
                   </div>
                 </div>
+                {!state.selectedItem.Rank ? '' : 
+                  <div style={{ border: '1px solid #DDDDDD', borderRadius: '3px', boxShadow: '3px 3px #CCCCC', margin: '5px 5px 5px 5px' }}>
+                    <div style={{ fontWeight: 'bold' }}>
+                      Rank:
+                    </div>
+                    <div>
+                      {state.selectedItem.Rank}
+                    </div>
+                  </div>
+                }
                 <div style={{ border: '1px solid #DDDDDD', borderRadius: '3px', boxShadow: '3px 3px #CCCCC', margin: '5px 5px 5px 5px' }}>
-                  <div style={{ fontWeight: '' }}>
+                  <div style={{ fontWeight: 'bold' }}>
                     Region:
                   </div>
                   <div>
@@ -70,6 +80,16 @@ const StageModal = () => {
                     {+(state.selectedItem.Base).toFixed(3)}
                   </div>
                 </div>
+                {!state.selectedItem.Comments ? '' : 
+                  <div style={{ border: '1px solid #DDDDDD', borderRadius: '3px', boxShadow: '3px 3px #CCCCC', margin: '5px 5px 5px 5px' }}>
+                    <div style={{ fontWeight: 'bold' }}>
+                      Comments:
+                    </div>
+                    <div>
+                      {state.selectedItem.Comments}
+                    </div>
+                  </div>
+                }
                 <div style={{ border: '1px solid #DDDDDD', borderRadius: '3px', boxShadow: '3px 3px #CCCCC', margin: '5px 5px 5px 5px' }}>
                   <div style={{ fontWeight: 'bold' }}>
                     Top Calibration:
