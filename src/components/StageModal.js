@@ -89,7 +89,7 @@ const StageModal = () => {
 
               </div>
               <div className='d-flex justify-content-center' style={{ overflow: 'scroll' }}>
-                {stageimage ? <img className='m-auto' src={stageimage} /> : ''}
+                {stageimage ? <img className='m-auto' src={stageimage} alt='Stage Chart' /> : ''}
               </div>
             </div>
         }

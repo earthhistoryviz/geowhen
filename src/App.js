@@ -43,7 +43,7 @@ function App() {
     <div className='mx-auto mt-4' style={{ width: '90%' }}>
       <div className='mx-auto mt-4'>{/* style={{width: '100%', minHeight: '30px', display: 'flex', flexDirection: 'row' }}> */}
         <div>
-          <img src='/geowhen/geowhen_logo.png' height='75px' />
+          <img src='/geowhen/geowhen_logo.png' height='75px' alt='GeoWhen Logo' />
         </div>
         <div>
           Lookup table for regional stages provided by<br />
