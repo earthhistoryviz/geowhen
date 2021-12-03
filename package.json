@@ -15,6 +15,7 @@
     "overmind": "^28.0.1",
     "overmind-devtools": "^29.0.1",
     "overmind-react": "^29.0.1",
+    "page": "^1.11.6",
     "react": "^17.0.2",
     "react-bootstrap": "^2.0.0-beta.6",
     "react-dom": "^17.0.2",

@@ -2,8 +2,14 @@ import axios from 'axios';
 import xlsx from 'xlsx';
 // import clone from 'clone';
 
-export const onInitializeOvermind = async ({ state }) => {
+export const onInitializeOvermind = async ({ state, actions, effects }) => {
   state.isLoading = true;
+
+  // Init the router
+  effects.router.initialize({
+    '/geowhenstage/:stageName': actions.showStageModal
+  });
+
   const result = await axios.get('https://api.github.com/repos/earthhistoryviz/geowhen/contents/data/MasterData.xlsx', {
     headers: {
       Accept: 'application/vnd.github.v3.raw'
@@ -168,4 +174,19 @@ export const toggleFilterModal = ({ state }) => {
 export const selectItem = ({ state }, selected) => {
   if (selected === false) state.selectedItem = false;
   else state.selectedItem = { ...selected };
+};
+
+export const showStageModal = async ({ state }, params) => {
+  const byperiod = state.masterData.byperiod;
+  let selectedStage = null;
+  Object.keys(byperiod).forEach(period => {
+    period.forEach((stage) => {
+      if (stage.STAGE === params.stageName) {
+        selectedStage = params.stageName;
+      }
+    });
+  });
+
+  console.log(params.stageName);
+  state.selectedItem = { ...selectedStage };
 };
