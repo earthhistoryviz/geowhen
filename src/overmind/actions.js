@@ -7,7 +7,8 @@ export const onInitializeOvermind = async ({ state, actions, effects }) => {
 
   // Init the router
   effects.router.initialize({
-    '/geowhenstage/:stageName': actions.showStageModal
+    '/stage/:stageName': actions.stageUrlChanged,
+    '': actions.clearUrl,
   });
 
   const result = await axios.get('https://api.github.com/repos/earthhistoryviz/geowhen/contents/data/MasterData.xlsx', {
@@ -72,6 +73,14 @@ export const onInitializeOvermind = async ({ state, actions, effects }) => {
   state.view.stageColors = colorLookup;
 
   state.isLoading = false;
+
+  // If we already have a stageName, then the URL mapper ran before
+  // initialization finished loading all the stages.  Re-run it as if
+  // they just navigated here.
+  if (state.page.stageName) {
+    console.log('Re-calling stageUrlChanged after initialization');
+    actions.stageUrlChanged(state.page);
+  }
 };
 
 /****************************************************************************
@@ -171,22 +180,66 @@ export const toggleFilterModal = ({ state }) => {
   state.view.filterModal.visible = !state.view.filterModal.visible;
 };
 
-export const selectItem = ({ state }, selected) => {
+export const selectItem = ({ state, effects }, selected) => {
   if (selected === false) state.selectedItem = false;
   else state.selectedItem = { ...selected };
+  effects.router.navigateTo('/stage/'+selected.STAGE);
 };
 
-export const showStageModal = async ({ state }, params) => {
-  const byperiod = state.masterData.byperiod;
+export const showStageModal = async ({ state, effects, actions }, { stageName }) => {
+  const byperiod = state.masterdata.byperiod;
   let selectedStage = null;
   Object.keys(byperiod).forEach(period => {
-    period.forEach((stage) => {
-      if (stage.STAGE === params.stageName) {
-        selectedStage = params.stageName;
+    byperiod[period].forEach((stage) => {
+      if (stage.STAGE === stageName) {
+        console.log('Found selectedStage = ', stage);
+        selectedStage = stage;
       }
     });
   });
-
-  console.log(params.stageName);
-  state.selectedItem = { ...selectedStage };
+  actions.selectItem(selectedStage);
 };
+
+// Note: the page router sends us the stageName parameter since the route defined it
+// It only send us that parameter.  We know it's a /stage/* URL because this 
+// particular action was called which was registered for the route.
+export const stageUrlChanged = ({ state, actions }, { stageName }) => {
+  state.page.stageName = stageName ? stageName.toUpperCase() : false;
+  if (!state.masterdata || !state.masterdata.displayedStages) {
+    console.log('WARNING: trying to set page URL BEFORE displayedStages are available');
+    return;
+  }
+
+  // Find the stage that matches this
+  let foundstage = false;
+  for (const period in state.masterdata.displayedStages) {
+    const stages = state.masterdata.displayedStages[period];
+    for (const stageindex in stages) {
+      const stage = stages[stageindex];
+      const name = stage.STAGE || '';
+      if (name.toUpperCase().replace(/ /g,'') === stageName) {
+        foundstage = name;
+        break;
+      }
+    }
+    if (foundstage) break;
+  }
+
+  if (!foundstage) {
+    console.log('WARNING: stage ', stageName, ' requested, but no stage could be found for that name');
+    return;
+  }
+
+  // Is this already the selected stage?
+  if (state.selectedItem && state.selectedItem.STAGE === foundstage) {
+    console.log('Stage ', foundstage, ' is already the selected stage.');
+    return;
+  }
+
+  // Otherwise, select this stage:
+  actions.showStageModal({ stageName: foundstage });
+}
+
+export const clearUrl = ({ state }) => {
+  state.page.stageName = false;
+}

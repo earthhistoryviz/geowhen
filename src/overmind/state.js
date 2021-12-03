@@ -1,6 +1,10 @@
 export const state = {
   isLoading: true,
   selectedItem: false,
+  // page is filled out from the URL
+  page: {
+    stageName: false,
+  },
   masterdata: {
     byperiod: {},
     displayedStages: {}, // same format as byperiod
