@@ -164,7 +164,9 @@ function App() {
           </>
         )
         : <p>Loading...</p>}
-
+      <div align='center' style={{ width: '100%', border: '1px solid #DDDDDD', borderRadius: '3px', boxShadow: '3px 3px #CCCCC', margin: '5px 5px 5px 5px' }}>
+        Created by Aaron Ault, James Ogg, Ibrahim Saeed, Aarini Panzade, Will Oberley
+      </div>
     </div>
   );
 }
